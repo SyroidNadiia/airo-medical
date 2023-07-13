@@ -1,7 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useLocation } from 'react-router-dom';
+import {
+  BeerWrapper,
+  BeerTitle,
+  BeerDescription,
+  BeerImage,
+} from './BeerRecipeItem.styled';
 
-
-export const BeerRecipeItem = ({ recipe }) => {
+export const BeerRecipeItem = ({ onSelect }) => {
+  const location = useLocation();
   const {
     name,
     tagline,
@@ -14,20 +21,27 @@ export const BeerRecipeItem = ({ recipe }) => {
     ingredients,
     food_pairing,
     brewers_tips,
-  } = recipe;
+  } = location.state;
+
+  const [selected, setSelected] = useState(false);
+
+  const handleClick = () => {
+    setSelected(!selected);
+    onSelect(name, !selected);
+  };
 
   return (
-    <div>
-      <h2>{name}</h2>
-      <p>{tagline}</p>
-      <p>First brewed: {first_brewed}</p>
-      <p>Description: {description}</p>
-      <img src={image_url} alt={name} />
-      <p>ABV: {abv}</p>
-      <p>IBU: {ibu}</p>
-      <p>
+    <BeerWrapper selected={selected} onClick={handleClick}>
+      <BeerTitle>{name}</BeerTitle>
+      <BeerDescription>{tagline}</BeerDescription>
+      <BeerDescription>First brewed: {first_brewed}</BeerDescription>
+      <BeerDescription>Description: {description}</BeerDescription>
+      <BeerImage src={image_url} alt={name} />
+      <BeerDescription>ABV: {abv}</BeerDescription>
+      <BeerDescription>IBU: {ibu}</BeerDescription>
+      <BeerDescription>
         Volume: {volume.value} {volume.unit}
-      </p>
+      </BeerDescription>
       <h3>Ingredients</h3>
       <ul>
         {ingredients.malt.map(malt => (
@@ -43,6 +57,6 @@ export const BeerRecipeItem = ({ recipe }) => {
         ))}
       </ul>
       <p>Brewer's Tips: {brewers_tips}</p>
-    </div>
+    </BeerWrapper>
   );
 };

@@ -1,13 +1,11 @@
 import styled from 'styled-components';
 
-
 export const BeerCard = styled.div`
-  width: 100%;
-  height: 20%;
+  display: flex;
   padding: 10px;
-  margin: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
+  gap: 20px;
 `;
 
 export const BeerImage = styled.img`
@@ -16,7 +14,7 @@ export const BeerImage = styled.img`
 `;
 
 export const BeerTitle = styled.h3`
-  font-size: 1.2rem;
+  font-size: 16px;
   margin: 10px 0;
 `;
 
@@ -26,4 +24,8 @@ export const BeerDescription = styled.p`
 
 export const BeerStats = styled.p`
   margin-bottom: 5px;
+`;
+
+export const WrapperBeerStats = styled.div`
+  display: flex;
 `;
