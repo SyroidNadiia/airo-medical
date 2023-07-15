@@ -8,6 +8,8 @@ import {
 } from './BeerRecipeItem.styled';
 import { GoBackBtn } from '../GoBackButton/GoBackButton';
 import { IoIosArrowRoundBack } from 'react-icons/io';
+import defaultImageBeer from '../../images/defaultImageBeer.png';
+
 
 export const BeerRecipeItem = ({ onSelect }) => {
   const location = useLocation();
@@ -38,6 +40,11 @@ export const BeerRecipeItem = ({ onSelect }) => {
     window.scrollTo(0, 0);
   }, []);
 
+  const handleImageError = event => {
+    event.target.src = defaultImageBeer;
+  };
+
+
   return (
     <>
       <GoBackBtn to={backLink.current}>
@@ -48,7 +55,11 @@ export const BeerRecipeItem = ({ onSelect }) => {
         <BeerDescription>{tagline}</BeerDescription>
         <BeerDescription>First brewed: {first_brewed}</BeerDescription>
         <BeerDescription>Description: {description}</BeerDescription>
-        <BeerImage src={image_url} alt={name} />
+        <BeerImage
+          src={image_url || defaultImageBeer}
+          alt={name}
+          onError={handleImageError}
+        />
         <BeerDescription>ABV: {abv}</BeerDescription>
         <BeerDescription>IBU: {ibu}</BeerDescription>
         <BeerDescription>

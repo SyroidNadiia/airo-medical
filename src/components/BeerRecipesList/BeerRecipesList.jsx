@@ -8,9 +8,10 @@ import {
   BeerStats,
   WrapperBeerStats,
 } from './BeerRecipesList.styled';
-import { Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Loader } from '../Loader/Loader.jsx';
 import { ButtonLoadMore } from '../ButtonLoadMore/ButtonLoadMore';
+import  defaultImageBeer  from "../../images/defaultImageBeer.png";
 
 export const BeerRecipesList = () => {
   const selectedFilters = useBeerStore(state => state.selectedFilters);
@@ -61,20 +62,24 @@ export const BeerRecipesList = () => {
   useEffect(() => {
     if (visibleCount >= totalRecipesCount) {
       setShowButton(true);
-    } else if (page === lastPage) {
-      setShowButton(false);
     } else {
       setShowButton(false);
     }
-  }, [visibleCount, totalRecipesCount, page, lastPage]);
+  }, [visibleCount, totalRecipesCount]);
+
+  useEffect(() => {
+    if (page === lastPage && visibleCount === totalRecipesCount) {
+      setShowButton(false);
+    }
+  }, [page, totalRecipesCount, visibleCount]);
 
   useEffect(() => {
     if (containerRef.current) {
       containerRef.current.scrollTop = 0;
     }
   }, [filteredRecipes]);
-   
-   const handleRecipeSelect = (recipe, event) => {
+
+  const handleRecipeSelect = (recipe, event) => {
     if (event.button === 2) {
       event.preventDefault();
       const isRecipeSelected = selectedRecipes.some(
@@ -98,10 +103,6 @@ export const BeerRecipesList = () => {
         window.innerHeight + window.pageYOffset >=
         document.body.offsetHeight - 200;
 
-      console.log('scrolledToBottom', scrolledToBottom);
-      console.log('visibleCount', visibleCount);
-      console.log('totalRecipesCount', totalRecipesCount);
-
       if (scrolledToBottom && visibleCount < totalRecipesCount) {
         const newVisibleCount = Math.min(visibleCount + 5, totalRecipesCount);
         setVisibleCount(newVisibleCount);
@@ -114,6 +115,11 @@ export const BeerRecipesList = () => {
       window.removeEventListener('scroll', handleScroll);
     };
   }, [visibleCount, totalRecipesCount]);
+
+  const handleImageError = event => {
+    event.target.src = defaultImageBeer;
+  };
+
 
   if (isLoading) {
     return <Loader />;
@@ -131,9 +137,10 @@ export const BeerRecipesList = () => {
           >
             <div style={{ width: '50px' }}>
               <BeerImage
-                src={recipe.image_url}
+                src={recipe.image_url || defaultImageBeer}
                 alt={recipe.name}
                 style={{ width: '100%', height: 'auto' }}
+                onError={handleImageError}
               />
             </div>
             <div>
