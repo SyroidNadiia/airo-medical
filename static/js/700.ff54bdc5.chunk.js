@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkairo_medical=self.webpackChunkairo_medical||[]).push([[700],{6700:function(e,n,o){o.r(n),o.d(n,{NotFound:function(){return t}});var r=o(5644),i=o(2834),t=function(){return(0,i.jsxs)("div",{children:[(0,i.jsx)("h1",{children:"404 - Page Not Found"}),(0,i.jsx)("p",{children:"The page you are looking for does not exist."}),(0,i.jsx)(r.rU,{to:"/",children:"Go to Beer Page"})]})}}}]);
+//# sourceMappingURL=700.ff54bdc5.chunk.js.map

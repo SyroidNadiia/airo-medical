@@ -1,0 +1,20 @@
+{
+  "files": {
+    "main.css": "/airo-medical/static/css/main.0cc8cb7b.css",
+    "main.js": "/airo-medical/static/js/main.6e1f44a7.js",
+    "static/js/711.3d8ea9fc.chunk.js": "/airo-medical/static/js/711.3d8ea9fc.chunk.js",
+    "static/js/700.ff54bdc5.chunk.js": "/airo-medical/static/js/700.ff54bdc5.chunk.js",
+    "static/js/873.dbd1b6b1.chunk.js": "/airo-medical/static/js/873.dbd1b6b1.chunk.js",
+    "static/media/defaultImageBeer.png": "/airo-medical/static/media/defaultImageBeer.b085fcfd7fb538c34d72.png",
+    "index.html": "/airo-medical/index.html",
+    "main.0cc8cb7b.css.map": "/airo-medical/static/css/main.0cc8cb7b.css.map",
+    "main.6e1f44a7.js.map": "/airo-medical/static/js/main.6e1f44a7.js.map",
+    "711.3d8ea9fc.chunk.js.map": "/airo-medical/static/js/711.3d8ea9fc.chunk.js.map",
+    "700.ff54bdc5.chunk.js.map": "/airo-medical/static/js/700.ff54bdc5.chunk.js.map",
+    "873.dbd1b6b1.chunk.js.map": "/airo-medical/static/js/873.dbd1b6b1.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.0cc8cb7b.css",
+    "static/js/main.6e1f44a7.js"
+  ]
+}
