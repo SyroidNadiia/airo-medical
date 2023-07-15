@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useBeerStore, selectFilteredRecipes } from '../../beerStore.js';
 import {
   BeerCard,
@@ -8,7 +8,7 @@ import {
   BeerStats,
   WrapperBeerStats,
 } from './BeerRecipesList.styled';
-import { Link } from 'react-router-dom';
+import { Link} from 'react-router-dom';
 import { Loader } from '../Loader/Loader.jsx';
 import { ButtonLoadMore } from '../ButtonLoadMore/ButtonLoadMore';
 
@@ -32,10 +32,13 @@ export const BeerRecipesList = () => {
     selectedRecipes
   );
   const [isLoading, setLoading] = useState(true);
-  const [visibleCount, setVisibleCount] = useState(15);
+  const [visibleCount, setVisibleCount] = useState(5);
   const [totalRecipesCount, setTotalRecipesCount] = useState(0);
   const [page, setPage] = useState(1);
   const [isShowButton, setShowButton] = useState(false);
+  const lastPage = 13;
+
+  const containerRef = useRef();
 
   const onLoadMore = () => {
     setPage(prevPage => prevPage + 1);
@@ -52,18 +55,26 @@ export const BeerRecipesList = () => {
 
   useEffect(() => {
     setTotalRecipesCount(filteredRecipes.length);
-    setVisibleCount(15);
+    setVisibleCount(5);
   }, [filteredRecipes]);
 
   useEffect(() => {
     if (visibleCount >= totalRecipesCount) {
+      setShowButton(true);
+    } else if (page === lastPage) {
       setShowButton(false);
     } else {
-      setShowButton(true);
+      setShowButton(false);
     }
-  }, [visibleCount, totalRecipesCount]);
+  }, [visibleCount, totalRecipesCount, page, lastPage]);
 
-  const handleRecipeSelect = (recipe, event) => {
+  useEffect(() => {
+    if (containerRef.current) {
+      containerRef.current.scrollTop = 0;
+    }
+  }, [filteredRecipes]);
+   
+   const handleRecipeSelect = (recipe, event) => {
     if (event.button === 2) {
       event.preventDefault();
       const isRecipeSelected = selectedRecipes.some(
@@ -81,23 +92,28 @@ export const BeerRecipesList = () => {
     removeSelectedRecipes(recipe);
   };
 
-  const handleScroll = useCallback(() => {
-    const scrolledToBottom =
-      window.innerHeight + window.scrollY >=
-      document.documentElement.offsetHeight;
-
-    if (scrolledToBottom && visibleCount < totalRecipesCount) {
-      setVisibleCount(prevCount => prevCount + 5);
-    }
-  }, [visibleCount, totalRecipesCount]);
-
   useEffect(() => {
+    const handleScroll = () => {
+      const scrolledToBottom =
+        window.innerHeight + window.pageYOffset >=
+        document.body.offsetHeight - 200;
+
+      console.log('scrolledToBottom', scrolledToBottom);
+      console.log('visibleCount', visibleCount);
+      console.log('totalRecipesCount', totalRecipesCount);
+
+      if (scrolledToBottom && visibleCount < totalRecipesCount) {
+        const newVisibleCount = Math.min(visibleCount + 5, totalRecipesCount);
+        setVisibleCount(newVisibleCount);
+      }
+    };
+
     window.addEventListener('scroll', handleScroll);
 
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
-  }, [handleScroll]);
+  }, [visibleCount, totalRecipesCount]);
 
   if (isLoading) {
     return <Loader />;

@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import {
   BeerWrapper,
@@ -33,6 +33,10 @@ export const BeerRecipeItem = ({ onSelect }) => {
     setSelected(!selected);
     onSelect(name, !selected);
   };
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <>
