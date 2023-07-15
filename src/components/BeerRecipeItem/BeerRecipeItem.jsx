@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import PropTypes from 'prop-types';
 import {
   BeerWrapper,
   BeerTitle,
@@ -100,7 +99,3 @@ export const BeerRecipeItem = ({ onSelect }) => {
   );
 };
 
-
-BeerRecipeItem.propTypes = {
-  onSelect: PropTypes.func.isRequired,
-};

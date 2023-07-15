@@ -71,6 +71,8 @@ export const BeerRecipesList = () => {
   }, [filteredRecipes]);
 
   useEffect(() => {
+    console.log('selectedRecipes.length', selectedRecipes.length);
+    console.log('filteredRecipes.length', filteredRecipes.length);
     if (
       totalRecipesCount > visibleCount ||
       filteredRecipes.length === 0 ||
