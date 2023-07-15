@@ -1,105 +1,72 @@
-# React homework template
+## Project Description
 
-This project was created with
-[Create React App](https://github.com/facebook/create-react-app). To get
-acquainted and configure additional features
-[refer to documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+This project is a program that displays a list of beer recipes and allows users
+to view individual recipes.
 
-## Creating a repository by template
+## Technologies
 
-Use this GoIT repository as a template for creating a repository
-of your project. To use it just tap the `«Use this template»` button and choose
-`«Create a new repository»` option, as you can see on the image below.
+React.js - used for building the user interface and managing the application
+state. Zustand - a state management library based on React Hooks.
 
-![Creating repo from a template step 1](./assets/template-step-1.png)
+## Resources
 
-The page for creating a new repository will open on the next step. Fill out
-the Name field and make sure the repository is public, then click
-`«Create repository from template»` button.
+Beer recipes are obtained from a public API at the following address:
+https://api.punkapi.com/v2/beers?page=n, where n is the page number.
 
-![Creating repo from a template step 2](./assets/template-step-2.png)
+## Task Description
 
-You now have a personal project repository, having a repository-template file 
-and folder structure. After that, you can work with it as you would with any 
-other private repository: clone it on your computer, write code, commit, and 
-send it to GitHub.
+The main task is to create a program that displays a list of beer recipes and
+provides the following functionalities:
 
-## Preparing for coding
+Retrieve and display a list of recipes during the initial loading. Display 15
+recipes on the screen. Implement lazy loading: if the user scrolls to the end of
+the list, load additional 5 recipes. If there are no more recipes to display,
+make an API request to retrieve the next 25 recipes. Allow multiple recipe
+selection. Users can select a recipe by right-clicking on it. If at least one
+recipe is selected, a "Remove" button should appear. When the "Remove" button is
+clicked, the selected recipes should be removed from the list. Allow users to
+cancel the selection of a recipe by clicking on it again. Allow users to
+navigate to an individual recipe page by clicking on a recipe card with the left
+mouse button.
 
-1. Make sure you have an LTS version of Node.js installed on your computer.
-   [Download and install](https://nodejs.org/en/) if needed.
-2. Install the project's base dependencies with the `npm install` command.
-3. Start development mode by running the `npm start` command.
-4. Go to [http://localhost:3000](http://localhost:3000) in your browser. This
-   page will automatically reload after saving changes to the project files.
+## Additional Features
 
-## Deploy
+Implement a filter that allows users to conveniently view the list of selected
+recipes. Add a "Go Back" button that allows users to return to the previous
+page. Store the selected recipes in the local storage, so that users don't lose
+them when the page is refreshed.
 
-The production version of the project will automatically be linted, built, and
-deployed to GitHub Pages, in the `gh-pages` branch, every time the `main` branch
-is updated. For example, after a direct push or an accepted pull request. To do
-this, you need to edit the `homepage` field in the `package.json` file,
-replacing `your_username` and `your_repo_name` with your own, and submit the
-changes to GitHub.
+## Usage Instructions
 
-```json
-"homepage": "https://your_username.github.io/your_repo_name/"
-```
+To use this program, follow these steps:
 
-Next, you need to go to the settings of the GitHub repository (`Settings` >
-`Pages`) and set the distribution of the production version of files from the
-`/root` folder of the `gh-pages` branch, if this was not done automatically.
+1. Go to the page https://syroidnadiia.github.io/airo-medical/ in your web
+   browser.
 
-![GitHub Pages settings](./assets/repo-settings.png)
+2. On this page, you will find the program with a web interface that can be used
+   directly in the browser.
 
-### Deployment status
+**If you want to open the project in a development environment, follow these
+steps:**
 
-The deployment status of the latest commit is displayed with an icon next to its
-ID.
+1. Clone the project repository by running the command git clone
+   https://github.com/SyroidNadiia/airo-medical.git. This command will create a
+   local copy of the project on your computer.
 
-- **Yellow color** - the project is being built and deployed.
-- **Green color** - deployment completed successfully.
-- **Red color** - an error occurred during linting, build or deployment.
+2. Open the cloned project in your development environment, such as Visual
+   Studio Code or IntelliJ IDEA.
 
-More detailed information about the status can be viewed by clicking on the
-icon, and in the drop-down window, follow the link `Details`.
+3. Perform any necessary configurations and set up the development environment
+   according to the project requirements.
 
-![Deployment status](./assets/deploy-status.png)
+- Navigate to the project directory: cd project-directory;
+- Install the dependencies: npm install;
 
-### Live page
+4. Run the project in your development environment and perform development,
+   testing, or any other necessary actions: npm start;
 
-After some time, usually a couple of minutes, the live page can be viewed at the
-address specified in the edited `homepage` property. For example, here is a link
-to a live version for this repository
-[https://goitacademy.github.io/react-homework-template](https://goitacademy.github.io/react-homework-template).
+5. Open a web browser and go to http://localhost:3000.
 
-If a blank page opens, make sure there are no errors in the `Console` tab
-related to incorrect paths to the CSS and JS files of the project (**404**). You
-most likely have the wrong value for the `homepage` property in the
-`package.json` file.
+Author Nadiia Syroid
 
-### Routing
-
-If your application uses the `react-router-dom` library for routing, you must
-additionally configure the `<BrowserRouter>` component by passing the exact name
-of your repository in the `basename` prop. Slashes at the beginning and end of
-the line are required.
-
-```jsx
-<BrowserRouter basename="/your_repo_name/">
-  <App />
-</BrowserRouter>
-```
-
-## How it works
-
-![How it works](./assets/how-it-works.png)
-
-1. After each push to the `main` branch of the GitHub repository, a special
-   script (GitHub Action) is launched from the `.github/workflows/deploy.yml`
-   file.
-2. All repository files are copied to the server, where the project is
-   initialized and linted and built before deployment.
-3. If all steps are successful, the built production version of the project
-   files is sent to the `gh-pages` branch. Otherwise, the script execution log
-   will indicate what the problem is.
+Thank you for using the project!
