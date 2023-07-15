@@ -33,7 +33,7 @@ export const BeerRecipesList = () => {
     selectedRecipes
   );
   const [isLoading, setLoading] = useState(true);
-  const [visibleCount, setVisibleCount] = useState(5);
+  const [visibleCount, setVisibleCount] = useState(15);
   const [totalRecipesCount, setTotalRecipesCount] = useState(0);
   const [page, setPage] = useState(1);
   const [isShowButton, setShowButton] = useState(false);
@@ -56,19 +56,19 @@ export const BeerRecipesList = () => {
 
   useEffect(() => {
     setTotalRecipesCount(filteredRecipes.length);
-    setVisibleCount(5);
+    setVisibleCount(15);
   }, [filteredRecipes]);
 
   useEffect(() => {
-    if (visibleCount >= totalRecipesCount) {
-      setShowButton(true);
-    } else {
+    if (totalRecipesCount > visibleCount || filteredRecipes.length === 0) {
       setShowButton(false);
+    } else {
+      setShowButton(true);
     }
-  }, [visibleCount, totalRecipesCount]);
+  }, [visibleCount, totalRecipesCount, filteredRecipes.length]);
 
   useEffect(() => {
-    if (page === lastPage && visibleCount === totalRecipesCount) {
+    if (page === lastPage && visibleCount === totalRecipesCount ) {
       setShowButton(false);
     }
   }, [page, totalRecipesCount, visibleCount]);
