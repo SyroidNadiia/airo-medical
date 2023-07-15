@@ -8,7 +8,7 @@ export const StyledLink = styled(Link)`
   display: flex;
   align-items: center;
   gap: 10px;
-  margin-top: 70px;
+  margin-top: 20px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   max-width: 120px;
 

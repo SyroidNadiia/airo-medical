@@ -1,7 +1,8 @@
 import React from 'react';
-import { useBeerStore } from 'beerStore.js';
+import { useBeerStore } from 'store/beerStore.js';
 import { Select, MenuItem, FormControl, InputLabel } from '@mui/material';
 import { statusFilters } from '../../constants';
+import { FilterWrapper } from './Filter.styled';
 
 export const Filter = () => {
   const selectedFilters = useBeerStore(state => state.selectedFilters);
@@ -13,13 +14,15 @@ export const Filter = () => {
   };
 
   return (
-    <FormControl style={{ minWidth: 180 }}>
-      <InputLabel>Filter</InputLabel>
-      <Select value={selectedFilters} onChange={handleFilterChange}>
-        <MenuItem value={statusFilters.all}>All</MenuItem>
-        <MenuItem value={statusFilters.selected}>Selected</MenuItem>
-        <MenuItem value={statusFilters.notSelected}>Not selected</MenuItem>
-      </Select>
-    </FormControl>
+    <FilterWrapper>
+      <FormControl style={{ minWidth: 180 }}>
+        <InputLabel>Filter</InputLabel>
+        <Select value={selectedFilters} onChange={handleFilterChange}>
+          <MenuItem value={statusFilters.all}>All</MenuItem>
+          <MenuItem value={statusFilters.selected}>Selected</MenuItem>
+          <MenuItem value={statusFilters.notSelected}>Not selected</MenuItem>
+        </Select>
+      </FormControl>
+    </FilterWrapper>
   );
 };

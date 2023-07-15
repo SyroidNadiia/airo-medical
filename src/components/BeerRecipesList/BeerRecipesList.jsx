@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { useBeerStore, selectFilteredRecipes } from '../../beerStore.js';
+import { useBeerStore, selectFilteredRecipes } from '../../store/beerStore.js';
 import {
   BeerCard,
   BeerImage,
@@ -7,11 +7,20 @@ import {
   BeerDescription,
   BeerStats,
   WrapperBeerStats,
+  Title,
+  DeleteButton,
+  NoRecipesMessage,
+  BeerRecipesContainer,
+  BeerContent,
+  WrapperBeerImage,
+  WrapperDeleteButton,
+  WrapperInner,
+  StyledLink,
 } from './BeerRecipesList.styled';
-import { Link } from 'react-router-dom';
+
 import { Loader } from '../Loader/Loader.jsx';
 import { ButtonLoadMore } from '../ButtonLoadMore/ButtonLoadMore';
-import  defaultImageBeer  from "../../images/defaultImageBeer.png";
+import defaultImageBeer from '../../images/defaultImageBeer.png';
 
 export const BeerRecipesList = () => {
   const selectedFilters = useBeerStore(state => state.selectedFilters);
@@ -32,11 +41,13 @@ export const BeerRecipesList = () => {
     selectedFilters,
     selectedRecipes
   );
+
   const [isLoading, setLoading] = useState(true);
   const [visibleCount, setVisibleCount] = useState(15);
   const [totalRecipesCount, setTotalRecipesCount] = useState(0);
   const [page, setPage] = useState(1);
   const [isShowButton, setShowButton] = useState(false);
+
   const lastPage = 13;
 
   const containerRef = useRef();
@@ -60,15 +71,24 @@ export const BeerRecipesList = () => {
   }, [filteredRecipes]);
 
   useEffect(() => {
-    if (totalRecipesCount > visibleCount || filteredRecipes.length === 0) {
+    if (
+      totalRecipesCount > visibleCount ||
+      filteredRecipes.length === 0 ||
+      selectedRecipes.length === filteredRecipes.length
+    ) {
       setShowButton(false);
     } else {
       setShowButton(true);
     }
-  }, [visibleCount, totalRecipesCount, filteredRecipes.length]);
+  }, [
+    visibleCount,
+    totalRecipesCount,
+    filteredRecipes.length,
+    selectedRecipes.length,
+  ]);
 
   useEffect(() => {
-    if (page === lastPage && visibleCount === totalRecipesCount ) {
+    if (page === lastPage && visibleCount === totalRecipesCount) {
       setShowButton(false);
     }
   }, [page, totalRecipesCount, visibleCount]);
@@ -93,7 +113,7 @@ export const BeerRecipesList = () => {
     }
   };
 
-  const handleRemoveSelected = recipe => {
+  const handleRemoveFiltered = recipe => {
     removeSelectedRecipes(recipe);
   };
 
@@ -120,58 +140,76 @@ export const BeerRecipesList = () => {
     event.target.src = defaultImageBeer;
   };
 
-
   if (isLoading) {
     return <Loader />;
   }
 
   return (
-    <div>
-      <h2>Beer Recipes</h2>
-      {filteredRecipes.length > 0 ? (
-        filteredRecipes.slice(0, visibleCount).map(recipe => (
-          <BeerCard
-            key={recipe.id}
-            selected={selectedFilters.includes(recipe.status)}
-            onContextMenu={event => handleRecipeSelect(recipe, event)}
-          >
-            <div style={{ width: '50px' }}>
-              <BeerImage
-                src={recipe.image_url || defaultImageBeer}
-                alt={recipe.name}
-                style={{ width: '100%', height: 'auto' }}
-                onError={handleImageError}
-              />
-            </div>
-            <div>
-              <Link to={`/recipes/${recipe.id}`} state={recipe}>
-                <BeerTitle>{recipe.name}</BeerTitle>
-              </Link>
-              <BeerDescription>{recipe.description}</BeerDescription>
-              <WrapperBeerStats>
-                <BeerStats>Strength: {recipe.abv} %</BeerStats>
-                <BeerStats>Bitterness: {recipe.ibu} IBUs</BeerStats>
-                <BeerStats>Color: {recipe.ebc} SRM</BeerStats>
-                <BeerStats>
-                  Lot size: {recipe.volume.value} {recipe.volume.unit}
-                </BeerStats>
-              </WrapperBeerStats>
-            </div>
-            {selectedRecipes.some(
-              selectedRecipe => selectedRecipe.id === recipe.id
-            ) && (
-              <button onClick={() => handleRemoveSelected(recipe)}>
-                Delete
-              </button>
-            )}
-          </BeerCard>
-        ))
-      ) : (
-        <p>No recipes found.</p>
+    <BeerRecipesContainer>
+      {filteredRecipes.length > 0 && (
+        <>
+          <Title>Beer Recipes</Title>
+
+          {filteredRecipes.slice(0, visibleCount).map(recipe => (
+            <BeerCard
+              key={recipe.id}
+              selected={selectedFilters.includes(recipe.status)}
+              onContextMenu={event => handleRecipeSelect(recipe, event)}
+            >
+              <WrapperBeerImage style={{ width: '200px', height: '120px' }}>
+                <BeerImage
+                  width={200}
+                  height={120}
+                  src={recipe.image_url || defaultImageBeer}
+                  alt={recipe.name}
+                  onError={handleImageError}
+                />
+              </WrapperBeerImage>
+              <WrapperInner>
+                <BeerContent>
+                  <StyledLink to={`/recipes/${recipe.id}`} state={recipe}>
+                    <BeerTitle>{recipe.name}</BeerTitle>
+                  </StyledLink>
+                  <BeerDescription>{recipe.description}</BeerDescription>
+                  <WrapperBeerStats>
+                    <BeerStats>
+                      <strong>Strength: </strong>
+                      {recipe.abv} %
+                    </BeerStats>
+                    <BeerStats>
+                      <strong>Bitterness:</strong> {recipe.ibu} IBUs
+                    </BeerStats>
+                    <BeerStats>
+                      <strong>Color:</strong> {recipe.ebc} SRM
+                    </BeerStats>
+                    <BeerStats>
+                      <strong>Lot size: </strong> {recipe.volume.value}{' '}
+                      {recipe.volume.unit}
+                    </BeerStats>
+                  </WrapperBeerStats>
+                </BeerContent>
+                <WrapperDeleteButton
+                  style={{ width: '120px', height: '120px' }}
+                >
+                  {selectedRecipes.some(
+                    selectedRecipe => selectedRecipe.id === recipe.id
+                  ) && (
+                    <DeleteButton onClick={() => handleRemoveFiltered(recipe)}>
+                      Delete
+                    </DeleteButton>
+                  )}
+                </WrapperDeleteButton>
+              </WrapperInner>
+            </BeerCard>
+          ))}
+        </>
+      )}
+      {filteredRecipes.length === 0 && (
+        <NoRecipesMessage>No recipes found.</NoRecipesMessage>
       )}
       {isShowButton && (
         <ButtonLoadMore isLoading={isLoading} onLoadMore={onLoadMore} />
       )}
-    </div>
+    </BeerRecipesContainer>
   );
 };

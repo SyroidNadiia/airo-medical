@@ -1,10 +1,17 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import {
   BeerWrapper,
   BeerTitle,
   BeerDescription,
   BeerImage,
+  IngredientsList,
+  FoodPairingList,
+  BrewerTips,
+  BeerItem,
+  BeerList,
+  BeerSubtitle,
 } from './BeerRecipeItem.styled';
 import { GoBackBtn } from '../GoBackButton/GoBackButton';
 import { IoIosArrowRoundBack } from 'react-icons/io';
@@ -12,7 +19,6 @@ import defaultImageBeer from '../../images/defaultImageBeer.png';
 
 
 export const BeerRecipeItem = ({ onSelect }) => {
-
   const location = useLocation();
   const backLink = useRef(location.state?.from ?? '/');
 
@@ -39,13 +45,12 @@ export const BeerRecipeItem = ({ onSelect }) => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    document.title = name; 
+    document.title = name;
   }, [name]);
 
   const handleImageError = event => {
     event.target.src = defaultImageBeer;
   };
-
 
   return (
     <>
@@ -53,36 +58,49 @@ export const BeerRecipeItem = ({ onSelect }) => {
         <IoIosArrowRoundBack /> Go back
       </GoBackBtn>
       <BeerWrapper selected={selected} onClick={handleClick}>
-        <BeerTitle>{name}</BeerTitle>
-        <BeerDescription>{tagline}</BeerDescription>
-        <BeerDescription>First brewed: {first_brewed}</BeerDescription>
-        <BeerDescription>Description: {description}</BeerDescription>
         <BeerImage
           src={image_url || defaultImageBeer}
           alt={name}
           onError={handleImageError}
         />
+        <div>
+        <BeerTitle>{name}</BeerTitle>
+        <BeerDescription>{tagline}</BeerDescription>
+        <BeerDescription>First brewed: {first_brewed}</BeerDescription>
+        <BeerDescription>Description: {description}</BeerDescription>
+        
         <BeerDescription>ABV: {abv}</BeerDescription>
         <BeerDescription>IBU: {ibu}</BeerDescription>
         <BeerDescription>
           Volume: {volume.value} {volume.unit}
         </BeerDescription>
-        <h3>Ingredients</h3>
-        <ul>
-          {ingredients.malt.map(malt => (
-            <li key={malt.name}>
-              {malt.name}: {malt.amount.value} {malt.amount.unit}
-            </li>
-          ))}
-        </ul>
-        <h3>Food Pairing</h3>
-        <ul>
-          {food_pairing.map(food => (
-            <li key={food}>{food}</li>
-          ))}
-        </ul>
-        <p>Brewer's Tips: {brewers_tips}</p>
+        <IngredientsList>
+          <BeerSubtitle>Ingredients</BeerSubtitle>
+          <BeerList>
+            {ingredients.malt.map(malt => (
+              <BeerItem key={malt.name}>
+                {malt.name}: {malt.amount.value} {malt.amount.unit}
+              </BeerItem>
+            ))}
+          </BeerList>
+        </IngredientsList>
+        <FoodPairingList>
+          <BeerSubtitle>Food Pairing</BeerSubtitle>
+          <BeerList>
+            {food_pairing.map(food => (
+              <BeerItem key={food}>{food}</BeerItem>
+            ))}
+          </BeerList>
+        </FoodPairingList>
+        <BrewerTips>Brewer's Tips: {brewers_tips}</BrewerTips>
+        </div>
+        
       </BeerWrapper>
     </>
   );
+};
+
+
+BeerRecipeItem.propTypes = {
+  onSelect: PropTypes.func.isRequired,
 };
