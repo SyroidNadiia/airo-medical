@@ -12,6 +12,7 @@ import defaultImageBeer from '../../images/defaultImageBeer.png';
 
 
 export const BeerRecipeItem = ({ onSelect }) => {
+
   const location = useLocation();
   const backLink = useRef(location.state?.from ?? '/');
 
@@ -38,7 +39,8 @@ export const BeerRecipeItem = ({ onSelect }) => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, []);
+    document.title = name; 
+  }, [name]);
 
   const handleImageError = event => {
     event.target.src = defaultImageBeer;
