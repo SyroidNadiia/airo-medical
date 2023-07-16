@@ -7,11 +7,9 @@ const loadSelectedRecipes = () => {
 };
 
 export const useBeerStore = create(set => ({
-  
   beerRecipes: [],
   selectedFilters: 'all',
   selectedRecipes: loadSelectedRecipes(),
-
 
   addToSelectedRecipes: recipe =>
     set(state => {
@@ -50,12 +48,13 @@ export const useBeerStore = create(set => ({
     }
   },
 
-  removeFilteredRecipe: recipe =>
-    set(state => ({
-      filteredRecipes: state.filteredRecipes.filter(
+  removeFromBeerRecipes: recipe =>
+    set(state => {
+      const updatedBeerRecipes = state.beerRecipes.filter(
         item => item.id !== recipe.id
-      ),
-    })),
+      );
+      return { beerRecipes: updatedBeerRecipes };
+    }),
 
   setSelectedFilters: filters => set({ selectedFilters: filters }),
 }));
@@ -73,12 +72,12 @@ export const selectFilteredRecipes = (
         selectedRecipes.some(selectedRecipe => selectedRecipe.id === recipe.id)
       );
     case 'notSelected':
-       return beerRecipes.filter(
-         recipe =>
-           !selectedRecipes.some(
-             selectedRecipe => selectedRecipe.id === recipe.id
-           )
-       );
+      return beerRecipes.filter(
+        recipe =>
+          !selectedRecipes.some(
+            selectedRecipe => selectedRecipe.id === recipe.id
+          )
+      );
     default:
       return beerRecipes;
   }

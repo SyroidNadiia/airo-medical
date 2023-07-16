@@ -18,16 +18,13 @@ https://api.punkapi.com/v2/beers?page=n, where n is the page number.
 The main task is to create a program that displays a list of beer recipes and
 provides the following functionalities:
 
-Retrieve and display a list of recipes during the initial loading. Display 15
-recipes on the screen. Implement lazy loading: if the user scrolls to the end of
-the list, load additional 5 recipes. If there are no more recipes to display,
-make an API request to retrieve the next 25 recipes. Allow multiple recipe
-selection. Users can select a recipe by right-clicking on it. If at least one
-recipe is selected, a "Remove" button should appear. When the "Remove" button is
-clicked, the selected recipes should be removed from the list. Allow users to
-cancel the selection of a recipe by clicking on it again. Allow users to
-navigate to an individual recipe page by clicking on a recipe card with the left
-mouse button.
+Retrieving and displaying a list of recipes during initial loading. Displaying
+15 recipes on the screen. Implemented lazy loading functionality: if the user
+scrolls to the end of the list, an additional 5 recipes are loaded. If there are
+no more recipes to show, an API request is made to retrieve the next 25 recipes.
+Ability to select multiple recipes. The user can cancel the selection of a
+recipe by clicking on it again. When the "Delete" button is pressed, the
+selected recipes are removed from the displayed list of recipes.
 
 ## Additional Features
 

@@ -29,6 +29,10 @@ export const BeerRecipesList = () => {
 
   const fetchBeerRecipes = useBeerStore(state => state.fetchBeerRecipes);
 
+  const removeFromBeerRecipes = useBeerStore(
+    state => state.removeFromBeerRecipes
+  );
+
   const addToSelectedRecipes = useBeerStore(
     state => state.addToSelectedRecipes
   );
@@ -71,8 +75,6 @@ export const BeerRecipesList = () => {
   }, [filteredRecipes]);
 
   useEffect(() => {
-    console.log('selectedRecipes.length', selectedRecipes.length);
-    console.log('filteredRecipes.length', filteredRecipes.length);
     if (
       totalRecipesCount > visibleCount ||
       filteredRecipes.length === 0 ||
@@ -116,7 +118,8 @@ export const BeerRecipesList = () => {
   };
 
   const handleRemoveFiltered = recipe => {
-    removeSelectedRecipes(recipe);
+    removeFromBeerRecipes(recipe);
+    setVisibleCount(15);
   };
 
   useEffect(() => {
